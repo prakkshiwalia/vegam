@@ -1,5 +1,5 @@
-
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import WorkflowDiagram from "@/components/WorkflowDiagram";
 import { Button } from "@/components/ui/button";
@@ -142,6 +142,8 @@ const WorkflowCard = ({
 );
 
 const WorkflowsPage = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
@@ -163,7 +165,10 @@ const WorkflowsPage = () => {
               >
                 <Import size={16} /> Import Workflow
               </Button>
-              <Button className="bg-automation-primary hover:bg-automation-primary/90 flex items-center gap-1">
+              <Button 
+                className="bg-automation-primary hover:bg-automation-primary/90 flex items-center gap-1"
+                onClick={() => navigate('/workflows/new')}
+              >
                 <Plus size={16} /> New Workflow
               </Button>
             </div>

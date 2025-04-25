@@ -1,50 +1,13 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Send, Bot, User, PlusCircle, Settings, MessageSquare, Zap } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Bot } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent } from "@/components/ui/card";
+import ChatMessage, { Message } from "./chat/ChatMessage";
+import SuggestedPrompts, { PromptSuggestion } from "./chat/SuggestedPrompts";
+import MessageInput from "./chat/MessageInput";
+import { PlusCircle, Settings, MessageSquare } from "lucide-react";
 
-interface Message {
-  id: string;
-  content: string;
-  role: "user" | "assistant";
-  timestamp: Date;
-}
-
-const ChatMessage = ({ message }: { message: Message }) => {
-  const isUser = message.role === "user";
-  
-  return (
-    <div className={cn(
-      "flex w-full py-6 first:pt-0 border-b border-gray-100 dark:border-gray-800",
-      isUser ? "bg-white dark:bg-gray-900" : "bg-gray-50/50 dark:bg-gray-900/50"
-    )}>
-      <div className="flex-1 px-4 md:px-8 max-w-5xl mx-auto w-full">
-        <div className="flex gap-3 items-start">
-          <div className={cn(
-            "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
-            isUser ? "bg-blue-600 text-white" : "bg-primary text-white"
-          )}>
-            {isUser ? <User size={16} /> : <Bot size={16} />}
-          </div>
-          <div className="flex-1">
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-base leading-7 m-0">{message.content}</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const suggestedPrompts = [
+const suggestedPrompts: PromptSuggestion[] = [
   {
     title: "Create a new workflow from scratch",
     description: "Let me help you design and implement a new business process workflow",
@@ -74,7 +37,6 @@ const ChatInterface = () => {
       timestamp: new Date()
     }
   ]);
-  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -94,7 +56,6 @@ const ChatInterface = () => {
     };
     
     setMessages(prev => [...prev, userMessage]);
-    setInput("");
     setIsLoading(true);
     
     // Simulate AI response
@@ -112,7 +73,6 @@ const ChatInterface = () => {
   };
 
   const handlePromptClick = (prompt: string) => {
-    setInput(prompt);
     handleSendMessage(prompt);
   };
   
@@ -120,25 +80,10 @@ const ChatInterface = () => {
     <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-lg border shadow-sm">
       <div className="flex-1 overflow-y-auto chat-container">
         {messages.length === 1 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            {suggestedPrompts.map((prompt, index) => (
-              <Card 
-                key={index} 
-                className="cursor-pointer hover:border-primary/40 transition-all"
-                onClick={() => handlePromptClick(prompt.prompt)}
-              >
-                <CardContent className="pt-6">
-                  <div className="flex flex-col items-start gap-2">
-                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                      <prompt.icon size={20} />
-                    </div>
-                    <h3 className="font-semibold text-lg">{prompt.title}</h3>
-                    <p className="text-sm text-muted-foreground">{prompt.description}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <SuggestedPrompts 
+            prompts={suggestedPrompts} 
+            onPromptClick={handlePromptClick} 
+          />
         )}
         
         {messages.map((message) => (
@@ -155,31 +100,11 @@ const ChatInterface = () => {
       </div>
       
       <div className="border-t p-4">
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage(input);
-          }}
-          className="flex gap-2 items-center max-w-5xl mx-auto w-full"
-        >
-          <Input
-            placeholder="Describe your business process or automation needs..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1"
-          />
-          <Button 
-            type="submit" 
-            disabled={isLoading || !input.trim()}
-            size="icon"
-            className="shrink-0"
-          >
-            <Send size={18} className={cn(
-              "text-white transition-colors",
-              !input.trim() && "text-gray-400"
-            )} />
-          </Button>
-        </form>
+        <MessageInput 
+          onSendMessage={handleSendMessage} 
+          isLoading={isLoading}
+          placeholder="Describe your business process or automation needs..."
+        />
       </div>
     </div>
   );

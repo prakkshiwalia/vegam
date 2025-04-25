@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MessageCircle, BarChart, Settings, FileText, Gauge, Users, LifeBuoy, History } from "lucide-react";
@@ -44,7 +45,6 @@ const Sidebar = () => {
       
       <div className="flex flex-col p-4 flex-1">
         <p className="text-xs font-medium text-sidebar-foreground/70 mb-2">MAIN MENU</p>
-        <NavItem icon={MessageCircle} title="AI Assistant" to="/" isActive={currentPath === '/'} />
         <NavItem icon={BarChart} title="Dashboards" to="/dashboards" isActive={currentPath.startsWith('/dashboards')} />
         <NavItem icon={FileText} title="My Artifacts" to="/artifacts" isActive={currentPath.startsWith('/artifacts')} />
         <NavItem icon={Gauge} title="Workflows" to="/workflows" isActive={currentPath.startsWith('/workflows')} />

@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
-import { MessageCircle, BarChart, Settings, FileText, Gauge, MessageSquare } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { MessageCircle, BarChart, Settings, FileText, Gauge } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -31,22 +31,25 @@ const NavItem = ({
 );
 
 const Sidebar = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <div className="hidden md:flex h-screen w-64 flex-col bg-sidebar fixed left-0 top-0 border-r border-sidebar-border">
       <div className="p-4 border-b border-sidebar-border flex items-center gap-2">
         <div className="h-8 w-8 rounded-md bg-gradient-to-br from-automation-primary to-automation-secondary flex items-center justify-center">
-          <MessageSquare size={20} className="text-white" />
+          <MessageCircle size={20} className="text-white" />
         </div>
-        <h1 className="font-bold text-xl text-sidebar-foreground">AutomateNow</h1>
+        <h1 className="font-bold text-xl text-sidebar-foreground">VegamAI</h1>
       </div>
       
       <div className="flex flex-col p-4 flex-1">
         <p className="text-xs font-medium text-sidebar-foreground/70 mb-2">MAIN MENU</p>
-        <NavItem icon={MessageCircle} title="AI Assistant" to="/" isActive={true} />
-        <NavItem icon={BarChart} title="Dashboards" to="/dashboards" />
-        <NavItem icon={FileText} title="My Artifacts" to="/artifacts" />
-        <NavItem icon={Gauge} title="Workflows" to="/workflows" />
-        <NavItem icon={Settings} title="Settings" to="/settings" />
+        <NavItem icon={MessageCircle} title="AI Assistant" to="/" isActive={currentPath === '/'} />
+        <NavItem icon={BarChart} title="Dashboards" to="/dashboards" isActive={currentPath === '/dashboards'} />
+        <NavItem icon={FileText} title="My Artifacts" to="/artifacts" isActive={currentPath === '/artifacts'} />
+        <NavItem icon={Gauge} title="Workflows" to="/workflows" isActive={currentPath === '/workflows'} />
+        <NavItem icon={Settings} title="Settings" to="/settings" isActive={currentPath === '/settings'} />
       </div>
       
       <div className="p-4 border-t border-sidebar-border">

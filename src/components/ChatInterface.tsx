@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +46,6 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
-// Add the missing mockResponses array
 const mockResponses = [
   "Based on your description, I've created a customer onboarding workflow with 5 steps. You can view and customize it in the artifacts section.",
   "I've designed a support ticket handling system with automatic categorization and priority assignment. Would you like me to explain the workflow in detail?",
@@ -75,7 +73,6 @@ const ChatInterface = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   
-  // Auto scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -115,7 +112,7 @@ const ChatInterface = () => {
   };
   
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+    <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900">
       <div className="flex-1 overflow-y-auto">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
@@ -129,7 +126,7 @@ const ChatInterface = () => {
         <div ref={messagesEndRef} />
       </div>
       
-      <div className="border-t border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900">
+      <div className="border-t border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900 sticky bottom-0">
         <div className="max-w-4xl mx-auto">
           <form 
             onSubmit={(e) => {

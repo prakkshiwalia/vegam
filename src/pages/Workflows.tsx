@@ -103,38 +103,40 @@ const WorkflowCard = ({
   runs: number;
 }) => (
   <Card>
-    <CardHeader className="pb-2">
+    <CardHeader className="pb-3">
       <div className="flex items-start justify-between">
-        <div>
+        <div className="space-y-1">
           <CardTitle className="text-lg">{title}</CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">{description}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
         </div>
         <Badge 
           variant={status === "active" ? "default" : status === "paused" ? "outline" : "secondary"}
-          className={status === "active" ? "bg-green-500" : ""}
+          className={`${status === "active" ? "bg-green-500" : ""} ml-2`}
         >
           {status.charAt(0).toUpperCase() + status.slice(1)}
         </Badge>
       </div>
     </CardHeader>
     <CardContent>
-      <div className="flex justify-between items-center">
-        <div className="text-sm">
-          <span className="text-muted-foreground">Total runs:</span>{" "}
-          <span className="font-medium">{runs}</span>
+      <div className="flex flex-col space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Total runs:</span>
+            <span className="text-sm font-medium">{runs}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {status === "active" ? (
+              <Button size="sm" variant="outline" className="w-24">
+                <Pause size={14} className="mr-1" /> Pause
+              </Button>
+            ) : (
+              <Button size="sm" variant="outline" className="w-24">
+                <Play size={14} className="mr-1" /> Activate
+              </Button>
+            )}
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          {status === "active" ? (
-            <Button size="sm" variant="outline">
-              <Pause size={14} className="mr-1" /> Pause
-            </Button>
-          ) : (
-            <Button size="sm" variant="outline">
-              <Play size={14} className="mr-1" /> Activate
-            </Button>
-          )}
-          <Button size="sm">View Details</Button>
-        </div>
+        <Button size="sm" className="w-full">View Details</Button>
       </div>
     </CardContent>
   </Card>

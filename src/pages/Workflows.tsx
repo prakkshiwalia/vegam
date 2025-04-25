@@ -1,3 +1,4 @@
+
 import React from "react";
 import Sidebar from "@/components/Sidebar";
 import WorkflowDiagram from "@/components/WorkflowDiagram";
@@ -118,22 +119,22 @@ const WorkflowCard = ({
       </div>
     </CardHeader>
     <CardContent>
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center mb-2">
           <span className="text-sm text-muted-foreground">Total runs:</span>
           <span className="text-sm font-medium ml-2">{runs}</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full">
           {status === "active" ? (
-            <Button size="sm" variant="outline" className="h-9 px-4">
+            <Button size="sm" variant="outline" className="h-9 flex-1">
               <Pause size={14} className="mr-1" /> Pause
             </Button>
           ) : (
-            <Button size="sm" variant="outline" className="h-9 px-4">
+            <Button size="sm" variant="outline" className="h-9 flex-1">
               <Play size={14} className="mr-1" /> Activate
             </Button>
           )}
-          <Button size="sm" className="h-9 px-4">View Details</Button>
+          <Button size="sm" className="h-9 flex-1">View Details</Button>
         </div>
       </div>
     </CardContent>

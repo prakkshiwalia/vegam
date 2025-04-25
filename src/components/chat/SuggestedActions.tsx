@@ -14,7 +14,7 @@ const SuggestedActions = () => {
   const actions: ActionItem[] = [
     {
       icon: Plus,
-      title: "Create a new workflow from scratch",
+      title: "Create a new workflow",
       description: "Start building a new automation process",
       onClick: () => console.log("Create workflow clicked"),
     },
@@ -38,14 +38,14 @@ const SuggestedActions = () => {
         <Button
           key={index}
           variant="outline"
-          className="h-auto p-4 flex flex-col items-start gap-2 hover:bg-primary/5 transition-colors"
+          className="h-auto p-4 flex flex-col items-start gap-2 hover:bg-primary/5 transition-colors text-left"
           onClick={action.onClick}
         >
           <div className="flex items-center gap-2 text-primary">
             <action.icon size={20} />
-            <span className="font-medium">{action.title}</span>
+            <span className="font-medium truncate w-full">{action.title}</span>
           </div>
-          <p className="text-sm text-muted-foreground text-left">
+          <p className="text-sm text-muted-foreground line-clamp-2 w-full">
             {action.description}
           </p>
         </Button>

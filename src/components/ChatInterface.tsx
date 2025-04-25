@@ -1,94 +1,123 @@
 
 import React, { useState } from "react";
-import { PlusCircle, Settings, MessageSquare } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { Message } from "./chat/ChatMessage";
-import { PromptSuggestion } from "./chat/SuggestedPrompts";
-import MessageInput from "./chat/MessageInput";
-import ChatHeader from "./chat/ChatHeader";
-import ChatMessages from "./chat/ChatMessages";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Bot, Search, FileSearch, Send } from "lucide-react";
+import AIMessage from "./chat/AIMessage";
+import SuggestedActions from "./chat/SuggestedActions";
+import { cn } from "@/lib/utils";
 
-const suggestedPrompts: PromptSuggestion[] = [
-  {
-    title: "Create a new workflow",
-    description: "Let me help you design and implement a new business process workflow",
-    icon: PlusCircle,
-    prompt: "I want to create a new workflow for..."
-  },
-  {
-    title: "Optimize existing workflow",
-    description: "I'll analyze your current workflow and suggest improvements",
-    icon: Settings,
-    prompt: "Help me optimize this workflow:"
-  },
-  {
-    title: "Explore automation ideas",
-    description: "Let's discuss potential automation opportunities for your business",
-    icon: MessageSquare,
-    prompt: "I'd like to explore automation possibilities for..."
-  }
-];
+interface Message {
+  id: string;
+  content: string;
+  isUser: boolean;
+  timestamp: Date;
+}
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
-      content: "Hi! I'm your AI automation assistant. I can help you create new workflows, optimize existing processes, or explore automation ideas. What would you like to do?",
-      role: "assistant",
-      timestamp: new Date()
-    }
+      content: "Hi! I'm your AI automation assistant. How can I help you today?",
+      isUser: false,
+      timestamp: new Date(),
+    },
   ]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  
-  const handleSendMessage = async (content: string) => {
-    if (!content.trim()) return;
+  const [input, setInput] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
     
     const userMessage: Message = {
       id: Date.now().toString(),
-      content: content.trim(),
-      role: "user",
-      timestamp: new Date()
+      content: input,
+      isUser: true,
+      timestamp: new Date(),
     };
     
     setMessages(prev => [...prev, userMessage]);
-    setIsLoading(true);
+    setInput("");
+    setIsThinking(true);
     
     // Simulate AI response
     setTimeout(() => {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "I understand you want to " + content.toLowerCase() + ". Let's break this down step by step. First, could you tell me more about the specific business process you're working with?",
-        role: "assistant",
-        timestamp: new Date()
+        content: "I understand you want to explore automation options. Let me help you with that. Could you tell me more about your specific needs?",
+        isUser: false,
+        timestamp: new Date(),
       };
-      
       setMessages(prev => [...prev, aiMessage]);
-      setIsLoading(false);
+      setIsThinking(false);
     }, 1000);
   };
 
-  const handlePromptClick = (prompt: string) => {
-    handleSendMessage(prompt);
-  };
-  
   return (
-    <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-lg border shadow-sm">
-      <ChatHeader />
-      
-      <ChatMessages 
-        messages={messages}
-        suggestedPrompts={suggestedPrompts}
-        onPromptClick={handlePromptClick}
-        isLoading={isLoading}
-      />
-      
+    <div className="flex flex-col h-[calc(100vh-12rem)] bg-white rounded-lg border shadow-sm">
+      <div className="border-b p-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Bot size={18} className="text-primary" />
+          </div>
+          <div>
+            <h2 className="font-semibold">AI Assistant</h2>
+            <p className="text-xs text-muted-foreground">Powered by GPT</p>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="gap-1">
+            <Search size={14} />
+            <span>Search</span>
+          </Button>
+          <Button variant="outline" size="sm" className="gap-1">
+            <FileSearch size={14} />
+            <span>Deep Research</span>
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto">
+        {messages.length === 1 && <SuggestedActions />}
+        
+        {messages.map((message) => (
+          <AIMessage
+            key={message.id}
+            content={message.content}
+            isUser={message.isUser}
+            timestamp={message.timestamp}
+          />
+        ))}
+        
+        {isThinking && (
+          <div className="flex items-center gap-2 p-4 text-sm text-muted-foreground">
+            <Bot size={16} className="animate-pulse" />
+            <span>Thinking...</span>
+          </div>
+        )}
+      </div>
+
       <div className="border-t p-4">
-        <MessageInput 
-          onSendMessage={handleSendMessage} 
-          isLoading={isLoading}
-          placeholder="Describe your business process or automation needs..."
-        />
+        <div className="flex gap-2">
+          <Input
+            placeholder="Type your message..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSend()}
+            className="flex-1"
+          />
+          <Button
+            onClick={handleSend}
+            disabled={!input.trim() || isThinking}
+            size="icon"
+            className={cn(
+              "shrink-0",
+              input.trim() ? "bg-primary" : "bg-gray-100"
+            )}
+          >
+            <Send size={18} className={input.trim() ? "text-white" : "text-gray-400"} />
+          </Button>
+        </div>
       </div>
     </div>
   );

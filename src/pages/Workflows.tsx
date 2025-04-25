@@ -1,4 +1,3 @@
-
 import React from "react";
 import Sidebar from "@/components/Sidebar";
 import WorkflowDiagram from "@/components/WorkflowDiagram";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Play, Pause } from "lucide-react";
+import { Plus, Play, Pause, Import } from "lucide-react";
 
 const supportWorkflowSteps = [
   {
@@ -92,7 +91,12 @@ const approvalWorkflowSteps = [
   }
 ];
 
-const WorkflowCard = ({ title, description, status, runs }: { 
+const WorkflowCard = ({ 
+  title, 
+  description, 
+  status, 
+  runs 
+}: { 
   title: string; 
   description: string; 
   status: "active" | "paused" | "draft"; 
@@ -119,14 +123,14 @@ const WorkflowCard = ({ title, description, status, runs }: {
           <span className="text-muted-foreground">Total runs:</span>{" "}
           <span className="font-medium">{runs}</span>
         </div>
-        <div className="space-x-2">
+        <div className="flex items-center gap-2">
           {status === "active" ? (
-            <Button size="sm" variant="outline" className="flex items-center gap-1">
-              <Pause size={14} /> Pause
+            <Button size="sm" variant="outline">
+              <Pause size={14} className="mr-1" /> Pause
             </Button>
           ) : (
-            <Button size="sm" variant="outline" className="flex items-center gap-1">
-              <Play size={14} /> Activate
+            <Button size="sm" variant="outline">
+              <Play size={14} className="mr-1" /> Activate
             </Button>
           )}
           <Button size="sm">View Details</Button>
@@ -151,9 +155,17 @@ const WorkflowsPage = () => {
               </p>
             </div>
             
-            <Button className="bg-automation-primary hover:bg-automation-primary/90 flex items-center gap-1">
-              <Plus size={16} /> New Workflow
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                className="bg-automation-primary/10 hover:bg-automation-primary/20 flex items-center gap-1"
+              >
+                <Import size={16} /> Import Workflow
+              </Button>
+              <Button className="bg-automation-primary hover:bg-automation-primary/90 flex items-center gap-1">
+                <Plus size={16} /> New Workflow
+              </Button>
+            </div>
           </header>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

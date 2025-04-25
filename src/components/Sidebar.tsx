@@ -1,7 +1,6 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MessageCircle, BarChart, Settings, FileText, Gauge, Users, LifeBuoy } from "lucide-react";
+import { MessageCircle, BarChart, Settings, FileText, Gauge, Users, LifeBuoy, History } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -49,6 +48,7 @@ const Sidebar = () => {
         <NavItem icon={BarChart} title="Dashboards" to="/dashboards" isActive={currentPath.startsWith('/dashboards')} />
         <NavItem icon={FileText} title="My Artifacts" to="/artifacts" isActive={currentPath.startsWith('/artifacts')} />
         <NavItem icon={Gauge} title="Workflows" to="/workflows" isActive={currentPath.startsWith('/workflows')} />
+        <NavItem icon={History} title="History" to="/history" isActive={currentPath.startsWith('/history')} />
         <NavItem icon={Settings} title="Settings" to="/settings" isActive={currentPath.startsWith('/settings')} />
       </div>
       

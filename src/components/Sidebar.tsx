@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MessageCircle, BarChart, Settings, FileText, Gauge } from "lucide-react";
+import { MessageCircle, BarChart, Settings, FileText, Gauge, Users, LifeBuoy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -46,14 +46,18 @@ const Sidebar = () => {
       <div className="flex flex-col p-4 flex-1">
         <p className="text-xs font-medium text-sidebar-foreground/70 mb-2">MAIN MENU</p>
         <NavItem icon={MessageCircle} title="AI Assistant" to="/" isActive={currentPath === '/'} />
-        <NavItem icon={BarChart} title="Dashboards" to="/dashboards" isActive={currentPath === '/dashboards'} />
-        <NavItem icon={FileText} title="My Artifacts" to="/artifacts" isActive={currentPath === '/artifacts'} />
-        <NavItem icon={Gauge} title="Workflows" to="/workflows" isActive={currentPath === '/workflows'} />
-        <NavItem icon={Settings} title="Settings" to="/settings" isActive={currentPath === '/settings'} />
+        <NavItem icon={BarChart} title="Dashboards" to="/dashboards" isActive={currentPath.startsWith('/dashboards')} />
+        <NavItem icon={FileText} title="My Artifacts" to="/artifacts" isActive={currentPath.startsWith('/artifacts')} />
+        <NavItem icon={Gauge} title="Workflows" to="/workflows" isActive={currentPath.startsWith('/workflows')} />
+        <NavItem icon={Settings} title="Settings" to="/settings" isActive={currentPath.startsWith('/settings')} />
       </div>
       
       <div className="p-4 border-t border-sidebar-border">
-        <div className="flex items-center gap-3">
+        <p className="text-xs font-medium text-sidebar-foreground/70 mb-2">COMMUNITY</p>
+        <NavItem icon={Users} title="Community Forum" to="/community" isActive={currentPath.startsWith('/community')} />
+        <NavItem icon={LifeBuoy} title="Help & Support" to="/support" isActive={currentPath.startsWith('/support')} />
+        
+        <div className="mt-6 flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-sidebar-accent flex items-center justify-center text-sidebar-foreground">
             U
           </div>

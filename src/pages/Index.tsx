@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import ChatInterface from "@/components/ChatInterface";
 import ArtifactCard from "@/components/ArtifactCard";
@@ -7,7 +8,8 @@ import WorkflowDiagram from "@/components/WorkflowDiagram";
 import FormGenerator from "@/components/FormGenerator";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { X } from "lucide-react";
+import { X, Plus, PlusCircle, Pause, Play } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const sampleWorkflowSteps = [
   {
@@ -38,7 +40,10 @@ const sampleWorkflowSteps = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [selectedArtifact, setSelectedArtifact] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [artifactsGenerated] = useState([
     {
       id: "1",
@@ -55,13 +60,31 @@ const Index = () => {
       date: new Date(2025, 3, 22)
     }
   ]);
+
+  const handleNewWorkflow = () => {
+    navigate("/workflows/new");
+  };
+
+  const handleNewArtifact = () => {
+    navigate("/artifacts/new");
+  };
+  
+  const toggleGeneration = () => {
+    setIsGenerating(!isGenerating);
+    toast({
+      title: isGenerating ? "Generation Paused" : "Generation Activated",
+      description: isGenerating 
+        ? "AI workflow generation has been paused." 
+        : "AI will now automatically generate workflows based on your conversations.",
+    });
+  };
   
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
       
       <div className="flex-1 md:ml-64">
-        <div className="container mx-auto py-6 px-4 md:px-6">
+        <div className="container mx-auto py-6 px-4 md:px-6 max-w-7xl">
           <header className="mb-6">
             <h1 className="text-3xl font-bold">
               <span className="gradient-text">VegamAI</span> Business Automation
@@ -72,7 +95,7 @@ const Index = () => {
           </header>
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className={`lg:col-span-${selectedArtifact ? '7' : '12'} bg-white dark:bg-gray-800 rounded-lg shadow-sm border`}>
+            <div className={`lg:col-span-${selectedArtifact ? '7' : '12'} bg-white dark:bg-gray-800 rounded-lg shadow-sm border w-full`}>
               <ChatInterface />
             </div>
             
@@ -105,12 +128,44 @@ const Index = () => {
           <div className="mt-6">
             <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
               <h2 className="text-xl font-semibold">Recently Generated Artifacts</h2>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="w-24 md:w-auto">
-                  New Workflow
+              <div className="flex flex-wrap gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-1"
+                  onClick={handleNewWorkflow}
+                >
+                  <Plus size={16} />
+                  <span className="hidden sm:inline">New Workflow</span>
+                  <span className="inline sm:hidden">Workflow</span>
                 </Button>
-                <Button variant="outline" size="sm" className="w-24 md:w-auto">
-                  {artifactsGenerated.length > 0 ? "Pause" : "Activate"}
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-1"
+                  onClick={handleNewArtifact}
+                >
+                  <Plus size={16} />
+                  <span className="hidden sm:inline">New Artifact</span>
+                  <span className="inline sm:hidden">Artifact</span>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="gap-1"
+                  onClick={toggleGeneration}
+                >
+                  {isGenerating ? (
+                    <>
+                      <Pause size={16} />
+                      <span className="hidden sm:inline">Pause</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play size={16} />
+                      <span className="hidden sm:inline">Activate</span>
+                    </>
+                  )}
                 </Button>
               </div>
             </div>

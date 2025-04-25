@@ -1,7 +1,8 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Bot, Search } from "lucide-react";
+import { Send, Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -20,14 +21,14 @@ const ChatMessage = ({ message }: { message: Message }) => {
       "flex w-full py-6 first:pt-0 border-b border-gray-100 dark:border-gray-800",
       isUser ? "bg-white dark:bg-gray-900" : "bg-gray-50/50 dark:bg-gray-900/50"
     )}>
-      <div className="flex-1 px-4 md:px-8 max-w-4xl mx-auto">
+      <div className="flex-1 px-4 md:px-8 max-w-5xl mx-auto w-full">
         <div className="flex gap-3 items-start">
           <div className={cn(
-            "w-8 h-8 rounded-lg flex items-center justify-center",
+            "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
             isUser ? "bg-blue-600 text-white" : "bg-gray-100 dark:bg-gray-800"
           )}>
             {isUser ? (
-              <Search size={16} />
+              <User size={16} />
             ) : (
               <Bot size={16} />
             )}
@@ -112,7 +113,7 @@ const ChatInterface = () => {
   };
   
   return (
-    <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900">
+    <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 w-full">
       <div className="flex-1 overflow-y-auto">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
@@ -126,8 +127,8 @@ const ChatInterface = () => {
         <div ref={messagesEndRef} />
       </div>
       
-      <div className="border-t border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900 sticky bottom-0">
-        <div className="max-w-4xl mx-auto">
+      <div className="border-t border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900 sticky bottom-0 w-full">
+        <div className="max-w-5xl mx-auto w-full">
           <form 
             onSubmit={(e) => {
               e.preventDefault();

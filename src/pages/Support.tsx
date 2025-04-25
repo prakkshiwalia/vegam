@@ -150,260 +150,260 @@ const Support = () => {
                 <TabsTrigger value="faqs">FAQs</TabsTrigger>
                 <TabsTrigger value="contact">Contact Us</TabsTrigger>
               </TabsList>
+            
+              <TabsContent value="help-center" className="mt-0">
+                <div className="flex flex-col lg:flex-row gap-6">
+                  <div className="lg:w-1/4">
+                    <Card className="mb-6">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-base">Help Topics</CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-0">
+                        <div className="px-4 pb-4 flex flex-col">
+                          {supportTopics.map((topic) => (
+                            <Button 
+                              key={topic.id} 
+                              variant="ghost" 
+                              className={`justify-start ${selectedTopic === topic.id ? 'bg-primary/10 text-primary' : ''}`}
+                              onClick={() => handleTopicClick(topic.id)}
+                            >
+                              {topic.label}
+                            </Button>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-base">Need More Help?</CardTitle>
+                        <CardDescription>Our support team is here to help you</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4 pb-2">
+                        <div className="flex items-center gap-2">
+                          <Mail size={18} className="text-primary" />
+                          <span>support@vegamai.com</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MessageSquare size={18} className="text-primary" />
+                          <span>Live Chat (8am-8pm EST)</span>
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <Button variant="outline" className="w-full" onClick={() => setActiveTab("contact")}>
+                          Contact Support
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </div>
+                  
+                  <div className="lg:w-3/4 space-y-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Documentation</CardTitle>
+                        <CardDescription>Comprehensive guides and resources for using VegamAI</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {[
+                          { title: "User Guide", description: "Complete documentation of all VegamAI features", icon: FileText },
+                          { title: "API Reference", description: "Technical documentation for developers", icon: ExternalLink },
+                          { title: "Best Practices", description: "Tips and strategies for workflow automation", icon: FileText },
+                          { title: "Release Notes", description: "Latest features and improvements", icon: FileText }
+                        ].map((item, i) => (
+                          <div key={i} className="flex justify-between items-center p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
+                            <div className="flex items-center gap-3">
+                              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <item.icon size={20} className="text-primary" />
+                              </div>
+                              <div>
+                                <h3 className="font-medium">{item.title}</h3>
+                                <p className="text-sm text-muted-foreground">{item.description}</p>
+                              </div>
+                            </div>
+                            <ArrowRight size={18} className="text-muted-foreground" />
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Video Tutorials</CardTitle>
+                        <CardDescription>Learn through step-by-step video walkthroughs</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {videoTutorials.map((video) => (
+                            <div key={video.id} className="border rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+                              <div className="relative">
+                                <img src={video.thumbnail} alt={video.title} className="w-full h-auto" />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors">
+                                  <PlayCircle size={48} className="text-white" />
+                                </div>
+                                <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                                  {video.duration}
+                                </div>
+                              </div>
+                              <div className="p-3">
+                                <h3 className="font-medium">{video.title}</h3>
+                                <p className="text-sm text-muted-foreground">{video.description}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="faqs" className="mt-0">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Frequently Asked Questions</CardTitle>
+                    <CardDescription>Find quick answers to common questions</CardDescription>
+                    <div className="relative mt-4">
+                      <Input 
+                        placeholder="Search FAQs..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="max-w-md"
+                      />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <ScrollArea className="h-[500px]">
+                      {filteredFaqs.length > 0 ? (
+                        <Accordion type="single" collapsible className="space-y-1">
+                          {filteredFaqs.map((faq, index) => (
+                            <AccordionItem key={index} value={`faq-${index}`}>
+                              <AccordionTrigger className="hover:bg-gray-50 dark:hover:bg-gray-800 px-4 text-left">
+                                {faq.question}
+                              </AccordionTrigger>
+                              <AccordionContent className="px-4 pb-4">
+                                <p className="text-muted-foreground">{faq.answer}</p>
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </Accordion>
+                      ) : (
+                        <div className="text-center py-12">
+                          <p className="text-muted-foreground">No FAQs found matching your search. Try a different query.</p>
+                        </div>
+                      )}
+                    </ScrollArea>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="contact" className="mt-0">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Contact Support</CardTitle>
+                        <CardDescription>Send us a message and we'll get back to you soon</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <form onSubmit={handleContactSubmit} className="space-y-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <label htmlFor="name" className="text-sm font-medium">Name</label>
+                              <Input 
+                                id="name" 
+                                name="name" 
+                                value={contactFormData.name}
+                                onChange={handleInputChange}
+                                required 
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <label htmlFor="email" className="text-sm font-medium">Email</label>
+                              <Input 
+                                id="email" 
+                                name="email" 
+                                type="email" 
+                                value={contactFormData.email}
+                                onChange={handleInputChange}
+                                required 
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <label htmlFor="subject" className="text-sm font-medium">Subject</label>
+                            <Input 
+                              id="subject" 
+                              name="subject" 
+                              value={contactFormData.subject}
+                              onChange={handleInputChange}
+                              required 
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <label htmlFor="message" className="text-sm font-medium">Message</label>
+                            <Textarea 
+                              id="message" 
+                              name="message" 
+                              rows={6} 
+                              value={contactFormData.message}
+                              onChange={handleInputChange}
+                              required 
+                            />
+                          </div>
+                          
+                          <Button type="submit" className="w-full">Send Message</Button>
+                        </form>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base">Contact Information</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div>
+                          <p className="text-sm font-medium">Email</p>
+                          <p className="text-sm text-muted-foreground">support@vegamai.com</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Support Hours</p>
+                          <p className="text-sm text-muted-foreground">Monday-Friday: 8am - 8pm EST</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Response Time</p>
+                          <p className="text-sm text-muted-foreground">Within 24 hours</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base">Other Support Options</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        {[
+                          { title: "Community Forum", description: "Get help from other VegamAI users" },
+                          { title: "Live Chat", description: "Chat with our support team in real-time" },
+                          { title: "Schedule a Call", description: "Book a video call with a product expert" }
+                        ].map((option, i) => (
+                          <Button key={i} variant="outline" className="w-full justify-start h-auto py-3 px-4">
+                            <div className="text-left">
+                              <h3 className="font-medium">{option.title}</h3>
+                              <p className="text-xs text-muted-foreground">{option.description}</p>
+                            </div>
+                          </Button>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
             </Tabs>
           </div>
-          
-          <TabsContent value="help-center" className="mt-0">
-            <div className="flex flex-col lg:flex-row gap-6">
-              <div className="lg:w-1/4">
-                <Card className="mb-6">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base">Help Topics</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-0">
-                    <div className="px-4 pb-4 flex flex-col">
-                      {supportTopics.map((topic) => (
-                        <Button 
-                          key={topic.id} 
-                          variant="ghost" 
-                          className={`justify-start ${selectedTopic === topic.id ? 'bg-primary/10 text-primary' : ''}`}
-                          onClick={() => handleTopicClick(topic.id)}
-                        >
-                          {topic.label}
-                        </Button>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base">Need More Help?</CardTitle>
-                    <CardDescription>Our support team is here to help you</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4 pb-2">
-                    <div className="flex items-center gap-2">
-                      <Mail size={18} className="text-primary" />
-                      <span>support@vegamai.com</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MessageSquare size={18} className="text-primary" />
-                      <span>Live Chat (8am-8pm EST)</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" className="w-full" onClick={() => setActiveTab("contact")}>
-                      Contact Support
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </div>
-              
-              <div className="lg:w-3/4 space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Documentation</CardTitle>
-                    <CardDescription>Comprehensive guides and resources for using VegamAI</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {[
-                      { title: "User Guide", description: "Complete documentation of all VegamAI features", icon: FileText },
-                      { title: "API Reference", description: "Technical documentation for developers", icon: ExternalLink },
-                      { title: "Best Practices", description: "Tips and strategies for workflow automation", icon: FileText },
-                      { title: "Release Notes", description: "Latest features and improvements", icon: FileText }
-                    ].map((item, i) => (
-                      <div key={i} className="flex justify-between items-center p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <item.icon size={20} className="text-primary" />
-                          </div>
-                          <div>
-                            <h3 className="font-medium">{item.title}</h3>
-                            <p className="text-sm text-muted-foreground">{item.description}</p>
-                          </div>
-                        </div>
-                        <ArrowRight size={18} className="text-muted-foreground" />
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Video Tutorials</CardTitle>
-                    <CardDescription>Learn through step-by-step video walkthroughs</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {videoTutorials.map((video) => (
-                        <div key={video.id} className="border rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
-                          <div className="relative">
-                            <img src={video.thumbnail} alt={video.title} className="w-full h-auto" />
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors">
-                              <PlayCircle size={48} className="text-white" />
-                            </div>
-                            <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                              {video.duration}
-                            </div>
-                          </div>
-                          <div className="p-3">
-                            <h3 className="font-medium">{video.title}</h3>
-                            <p className="text-sm text-muted-foreground">{video.description}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="faqs" className="mt-0">
-            <Card>
-              <CardHeader>
-                <CardTitle>Frequently Asked Questions</CardTitle>
-                <CardDescription>Find quick answers to common questions</CardDescription>
-                <div className="relative mt-4">
-                  <Input 
-                    placeholder="Search FAQs..." 
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="max-w-md"
-                  />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[500px]">
-                  {filteredFaqs.length > 0 ? (
-                    <Accordion type="single" collapsible className="space-y-1">
-                      {filteredFaqs.map((faq, index) => (
-                        <AccordionItem key={index} value={`faq-${index}`}>
-                          <AccordionTrigger className="hover:bg-gray-50 dark:hover:bg-gray-800 px-4 text-left">
-                            {faq.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="px-4 pb-4">
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  ) : (
-                    <div className="text-center py-12">
-                      <p className="text-muted-foreground">No FAQs found matching your search. Try a different query.</p>
-                    </div>
-                  )}
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="contact" className="mt-0">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Contact Support</CardTitle>
-                    <CardDescription>Send us a message and we'll get back to you soon</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleContactSubmit} className="space-y-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <label htmlFor="name" className="text-sm font-medium">Name</label>
-                          <Input 
-                            id="name" 
-                            name="name" 
-                            value={contactFormData.name}
-                            onChange={handleInputChange}
-                            required 
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label htmlFor="email" className="text-sm font-medium">Email</label>
-                          <Input 
-                            id="email" 
-                            name="email" 
-                            type="email" 
-                            value={contactFormData.email}
-                            onChange={handleInputChange}
-                            required 
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label htmlFor="subject" className="text-sm font-medium">Subject</label>
-                        <Input 
-                          id="subject" 
-                          name="subject" 
-                          value={contactFormData.subject}
-                          onChange={handleInputChange}
-                          required 
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium">Message</label>
-                        <Textarea 
-                          id="message" 
-                          name="message" 
-                          rows={6} 
-                          value={contactFormData.message}
-                          onChange={handleInputChange}
-                          required 
-                        />
-                      </div>
-                      
-                      <Button type="submit" className="w-full">Send Message</Button>
-                    </form>
-                  </CardContent>
-                </Card>
-              </div>
-              
-              <div className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Contact Information</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <p className="text-sm font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">support@vegamai.com</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Support Hours</p>
-                      <p className="text-sm text-muted-foreground">Monday-Friday: 8am - 8pm EST</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Response Time</p>
-                      <p className="text-sm text-muted-foreground">Within 24 hours</p>
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Other Support Options</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {[
-                      { title: "Community Forum", description: "Get help from other VegamAI users" },
-                      { title: "Live Chat", description: "Chat with our support team in real-time" },
-                      { title: "Schedule a Call", description: "Book a video call with a product expert" }
-                    ].map((option, i) => (
-                      <Button key={i} variant="outline" className="w-full justify-start h-auto py-3 px-4">
-                        <div className="text-left">
-                          <h3 className="font-medium">{option.title}</h3>
-                          <p className="text-xs text-muted-foreground">{option.description}</p>
-                        </div>
-                      </Button>
-                    ))}
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </TabsContent>
         </div>
       </div>
     </div>

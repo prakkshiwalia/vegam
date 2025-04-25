@@ -54,7 +54,7 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)] bg-white rounded-lg border shadow-sm">
+    <div className="flex flex-col h-full bg-white rounded-lg border shadow-sm">
       <div className="border-b p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">

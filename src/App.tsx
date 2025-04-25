@@ -12,6 +12,7 @@ import ArtifactNew from "./pages/ArtifactNew";
 import WorkflowsPage from "./pages/Workflows";
 import WorkflowNew from "./pages/WorkflowNew";
 import SettingsPage from "./pages/Settings";
+import HistoryPage from "./pages/History";
 import Community from "./pages/Community";
 import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/artifacts/new" element={<ArtifactNew />} />
           <Route path="/workflows" element={<WorkflowsPage />} />
           <Route path="/workflows/new" element={<WorkflowNew />} />
+          <Route path="/history" element={<HistoryPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/community" element={<Community />} />
           <Route path="/support" element={<Support />} />

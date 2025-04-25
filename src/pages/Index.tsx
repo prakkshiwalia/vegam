@@ -8,7 +8,7 @@ import WorkflowDiagram from "@/components/WorkflowDiagram";
 import FormGenerator from "@/components/FormGenerator";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { X, Plus, PlusCircle, Pause, Play } from "lucide-react";
+import { X, Plus, PlusCircle, Pause, Play, Settings, Info, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const sampleWorkflowSteps = [
@@ -86,16 +86,61 @@ const Index = () => {
       <div className="flex-1 md:ml-64">
         <div className="container mx-auto py-6 px-4 md:px-6 max-w-7xl">
           <header className="mb-6">
-            <h1 className="text-3xl font-bold">
-              <span className="gradient-text">VegamAI</span> Business Automation
-            </h1>
-            <p className="text-muted-foreground">
-              Describe what you need and let AI build forms, workflows, and dashboards for you.
-            </p>
+            <div className="flex flex-wrap justify-between items-center gap-4">
+              <div>
+                <h1 className="text-3xl font-bold">
+                  <span className="gradient-text">VegamAI</span> Assistant
+                </h1>
+                <p className="text-muted-foreground mt-1">
+                  Describe what you need and let AI build forms, workflows, and dashboards for you.
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="gap-1"
+                  onClick={toggleGeneration}
+                >
+                  {isGenerating ? (
+                    <>
+                      <Pause size={16} />
+                      <span className="hidden sm:inline">Pause Generation</span>
+                      <span className="inline sm:hidden">Pause</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play size={16} />
+                      <span className="hidden sm:inline">Start Generation</span>
+                      <span className="inline sm:hidden">Start</span>
+                    </>
+                  )}
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1"
+                >
+                  <Settings size={16} />
+                  <span className="hidden sm:inline">Settings</span>
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1"
+                >
+                  <Info size={16} />
+                  <span className="hidden sm:inline">Help</span>
+                </Button>
+              </div>
+            </div>
           </header>
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className={`lg:col-span-${selectedArtifact ? '7' : '12'} bg-white dark:bg-gray-800 rounded-lg shadow-sm border w-full`}>
+            <div className={`lg:col-span-${selectedArtifact ? '7' : '12'}`}>
               <ChatInterface />
             </div>
             
@@ -127,7 +172,12 @@ const Index = () => {
           
           <div className="mt-6">
             <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
-              <h2 className="text-xl font-semibold">Recently Generated Artifacts</h2>
+              <h2 className="text-xl font-semibold flex items-center gap-2">
+                Recently Generated Artifacts
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                  2 new
+                </span>
+              </h2>
               <div className="flex flex-wrap gap-2">
                 <Button 
                   variant="outline" 
@@ -149,24 +199,6 @@ const Index = () => {
                   <span className="hidden sm:inline">New Artifact</span>
                   <span className="inline sm:hidden">Artifact</span>
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="gap-1"
-                  onClick={toggleGeneration}
-                >
-                  {isGenerating ? (
-                    <>
-                      <Pause size={16} />
-                      <span className="hidden sm:inline">Pause</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play size={16} />
-                      <span className="hidden sm:inline">Activate</span>
-                    </>
-                  )}
-                </Button>
               </div>
             </div>
             
@@ -182,18 +214,14 @@ const Index = () => {
                 />
               ))}
             </div>
-          </div>
-          
-          <div className="mt-10 bg-white dark:bg-gray-800 rounded-lg border p-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Need Help?</h3>
-                <p className="text-muted-foreground">
-                  Our 24/7 support team is ready to assist you with any questions.
-                </p>
-              </div>
-              <Button>Contact Support</Button>
-            </div>
+            
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="mt-4 text-muted-foreground"
+            >
+              View all artifacts <ChevronRight size={16} className="ml-1" />
+            </Button>
           </div>
         </div>
       </div>

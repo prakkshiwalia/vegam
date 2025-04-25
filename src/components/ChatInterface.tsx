@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Loader, Bot } from "lucide-react";
+import { Send, Bot, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -18,30 +18,34 @@ const ChatMessage = ({ message }: { message: Message }) => {
   
   return (
     <div className={cn(
-      "flex w-full mb-4",
-      isUser ? "justify-end" : "justify-start"
+      "flex w-full py-6 first:pt-0 border-b border-gray-100 dark:border-gray-800",
+      isUser ? "bg-white dark:bg-gray-900" : "bg-gray-50/50 dark:bg-gray-900/50"
     )}>
-      <div className={cn(
-        "max-w-[80%] rounded-2xl p-4",
-        isUser ? "bg-automation-primary text-white rounded-tr-none" : "bg-gray-100 dark:bg-gray-800 rounded-tl-none"
-      )}>
-        <p className="text-sm">{message.content}</p>
-        <p className="text-xs mt-1 opacity-70">
-          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit' })}
-        </p>
+      <div className="flex-1 px-4 md:px-8 max-w-4xl mx-auto">
+        <div className="flex gap-3 items-start">
+          <div className={cn(
+            "w-8 h-8 rounded-lg flex items-center justify-center",
+            isUser ? "bg-blue-600 text-white" : "bg-gray-100 dark:bg-gray-800"
+          )}>
+            {isUser ? (
+              <Search size={16} />
+            ) : (
+              <Bot size={16} />
+            )}
+          </div>
+          <div className="flex-1">
+            <div className="prose dark:prose-invert max-w-none">
+              <p className="text-base leading-7 m-0">{message.content}</p>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-
-// Mock AI responses for the demo
-const mockResponses = [
-  "I've analyzed your business process. Let me generate a customized workflow for you.",
-  "Based on your description, I recommend automating your approval process with the following steps...",
-  "I can help you create a form for collecting this information. Would you like to see a preview?",
-  "I've created a dashboard that monitors these KPIs. You can customize it further if needed.",
-  "Your automation workflow has been set up. Would you like me to walk you through how it works?"
-];
 
 const getMockResponse = () => {
   return mockResponses[Math.floor(Math.random() * mockResponses.length)];
@@ -69,7 +73,6 @@ const ChatInterface = () => {
   const handleSendMessage = async () => {
     if (!input.trim()) return;
     
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input.trim(),
@@ -81,9 +84,7 @@ const ChatInterface = () => {
     setInput("");
     setIsLoading(true);
     
-    // Simulate AI thinking time
     setTimeout(() => {
-      // Add AI response
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: getMockResponse(),
@@ -94,7 +95,6 @@ const ChatInterface = () => {
       setMessages(prev => [...prev, aiMessage]);
       setIsLoading(false);
 
-      // Randomly show the artifact generated toast
       if (Math.random() > 0.5) {
         toast({
           title: "Artifact Generated",
@@ -105,42 +105,49 @@ const ChatInterface = () => {
   };
   
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-4 chat-container">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+      <div className="flex-1 overflow-y-auto">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
         {isLoading && (
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-gray-500 p-4">
             <Bot size={16} className="animate-pulse" />
-            <span>AI is thinking...</span>
+            <span>Thinking...</span>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
       
-      <div className="p-4 border-t">
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage();
-          }}
-          className="flex gap-2"
-        >
-          <Input
-            placeholder="Describe a process to automate..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1"
-          />
-          <Button 
-            type="submit" 
-            disabled={isLoading || !input.trim()}
-            className="bg-automation-primary hover:bg-automation-primary/90"
+      <div className="border-t border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900">
+        <div className="max-w-4xl mx-auto">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage();
+            }}
+            className="flex gap-2 items-center"
           >
-            {isLoading ? <Loader size={18} className="animate-spin" /> : <Send size={18} />}
-          </Button>
-        </form>
+            <Input
+              placeholder="Ask about automating your business process..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-1 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
+            />
+            <Button 
+              type="submit" 
+              disabled={isLoading || !input.trim()}
+              variant="ghost"
+              size="icon"
+              className="hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              <Send size={18} className={cn(
+                "text-gray-500 transition-colors",
+                input.trim() && "text-blue-600"
+              )} />
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );

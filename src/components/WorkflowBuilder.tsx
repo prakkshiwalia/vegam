@@ -89,6 +89,7 @@ const WorkflowBuilder = () => {
         type,
         position,
         data: { label: `New ${type}` },
+        className: 'bg-white border border-gray-200 rounded-lg shadow-lg',
       };
 
       setNodes((nds) => nds.concat(newNode));

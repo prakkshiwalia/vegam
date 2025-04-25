@@ -118,12 +118,12 @@ const WorkflowCard = ({
       </div>
     </CardHeader>
     <CardContent>
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-start">
         <div className="flex items-center">
           <span className="text-sm text-muted-foreground">Total runs:</span>
           <span className="text-sm font-medium ml-2">{runs}</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-2">
           {status === "active" ? (
             <Button size="sm" variant="outline" className="h-9 px-4">
               <Pause size={14} className="mr-1" /> Pause

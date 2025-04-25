@@ -19,7 +19,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
   
   return (
     <div className={cn(
-      "flex w-full py-6 first:pt-0 border-b border-gray-100 dark:border-gray-800",
+      "flex w-full py-6 border-b border-gray-100 dark:border-gray-800",
       isUser ? "bg-white dark:bg-gray-900" : "bg-gray-50/50 dark:bg-gray-900/50"
     )}>
       <div className="flex-1 px-4 md:px-8 max-w-5xl mx-auto w-full">

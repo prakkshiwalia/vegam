@@ -1,15 +1,16 @@
 
-import React, { useState, useRef, useEffect } from "react";
-import { Bot } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import ChatMessage, { Message } from "./chat/ChatMessage";
-import SuggestedPrompts, { PromptSuggestion } from "./chat/SuggestedPrompts";
-import MessageInput from "./chat/MessageInput";
+import React, { useState } from "react";
 import { PlusCircle, Settings, MessageSquare } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Message } from "./chat/ChatMessage";
+import { PromptSuggestion } from "./chat/SuggestedPrompts";
+import MessageInput from "./chat/MessageInput";
+import ChatHeader from "./chat/ChatHeader";
+import ChatMessages from "./chat/ChatMessages";
 
 const suggestedPrompts: PromptSuggestion[] = [
   {
-    title: "Create a new workflow from scratch",
+    title: "Create a new workflow",
     description: "Let me help you design and implement a new business process workflow",
     icon: PlusCircle,
     prompt: "I want to create a new workflow for..."
@@ -38,12 +39,7 @@ const ChatInterface = () => {
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
   
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -78,26 +74,14 @@ const ChatInterface = () => {
   
   return (
     <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-lg border shadow-sm">
-      <div className="flex-1 overflow-y-auto chat-container">
-        {messages.length === 1 && (
-          <SuggestedPrompts 
-            prompts={suggestedPrompts} 
-            onPromptClick={handlePromptClick} 
-          />
-        )}
-        
-        {messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
-        ))}
-        
-        {isLoading && (
-          <div className="flex items-center gap-2 text-sm text-gray-500 p-4">
-            <Bot size={16} className="animate-pulse" />
-            <span>Thinking...</span>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
+      <ChatHeader />
+      
+      <ChatMessages 
+        messages={messages}
+        suggestedPrompts={suggestedPrompts}
+        onPromptClick={handlePromptClick}
+        isLoading={isLoading}
+      />
       
       <div className="border-t p-4">
         <MessageInput 

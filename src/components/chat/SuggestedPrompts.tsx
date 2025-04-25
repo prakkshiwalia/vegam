@@ -17,15 +17,15 @@ interface SuggestedPromptsProps {
 
 const SuggestedPrompts = ({ prompts, onPromptClick }: SuggestedPromptsProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
       {prompts.map((prompt, index) => (
         <Card 
           key={index} 
-          className="cursor-pointer hover:border-primary/40 transition-all"
+          className="cursor-pointer hover:border-primary/40 transition-all hover:shadow-md"
           onClick={() => onPromptClick(prompt.prompt)}
         >
           <CardContent className="pt-6">
-            <div className="flex flex-col items-start gap-2">
+            <div className="flex flex-col items-start gap-3">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
                 <prompt.icon size={20} />
               </div>

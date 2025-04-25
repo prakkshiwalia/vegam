@@ -25,13 +25,14 @@ const MessageInput = ({ onSendMessage, isLoading, placeholder = "Type your messa
   return (
     <form 
       onSubmit={handleSubmit}
-      className="flex gap-2 items-center max-w-5xl mx-auto w-full"
+      className="flex gap-2 items-center w-full px-4"
     >
       <Input
         placeholder={placeholder}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         className="flex-1"
+        disabled={isLoading}
       />
       <Button 
         type="submit" 
@@ -40,8 +41,8 @@ const MessageInput = ({ onSendMessage, isLoading, placeholder = "Type your messa
         className="shrink-0"
       >
         <Send size={18} className={cn(
-          "text-white transition-colors",
-          !input.trim() && "text-gray-400"
+          "transition-colors",
+          input.trim() ? "text-white" : "text-gray-400"
         )} />
       </Button>
     </form>

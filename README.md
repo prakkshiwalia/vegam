@@ -3,6 +3,7 @@
 ## Project info
 
 **URL**: https://lovable.dev/projects/a6fa1c88-3aba-46b4-97b9-691824769391
+https://vegam-ai.lovable.app/
 
 ## How can I edit this code?
 

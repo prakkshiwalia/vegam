@@ -118,25 +118,23 @@ const WorkflowCard = ({
       </div>
     </CardHeader>
     <CardContent>
-      <div className="flex flex-col space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Total runs:</span>
-            <span className="text-sm font-medium">{runs}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {status === "active" ? (
-              <Button size="sm" variant="outline" className="w-24">
-                <Pause size={14} className="mr-1" /> Pause
-              </Button>
-            ) : (
-              <Button size="sm" variant="outline" className="w-24">
-                <Play size={14} className="mr-1" /> Activate
-              </Button>
-            )}
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <span className="text-sm text-muted-foreground">Total runs:</span>
+          <span className="text-sm font-medium ml-2">{runs}</span>
         </div>
-        <Button size="sm" className="w-full">View Details</Button>
+        <div className="flex items-center gap-2">
+          {status === "active" ? (
+            <Button size="sm" variant="outline" className="h-9 px-4">
+              <Pause size={14} className="mr-1" /> Pause
+            </Button>
+          ) : (
+            <Button size="sm" variant="outline" className="h-9 px-4">
+              <Play size={14} className="mr-1" /> Activate
+            </Button>
+          )}
+          <Button size="sm" className="h-9 px-4">View Details</Button>
+        </div>
       </div>
     </CardContent>
   </Card>

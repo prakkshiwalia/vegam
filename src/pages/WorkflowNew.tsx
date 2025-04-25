@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, ChevronRight, Plus, Save, Trash } from "lucide-react";
-import { WorkflowDiagram } from "@/components/WorkflowDiagram";
+import WorkflowDiagram from "@/components/WorkflowDiagram";
 import { useToast } from "@/hooks/use-toast";
 
 interface WorkflowStep {

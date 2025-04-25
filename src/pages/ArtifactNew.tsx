@@ -9,14 +9,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowLeft, FileText, Database, List, Save, Form as FormIcon } from "lucide-react";
+import { ArrowLeft, FileText, Database, List, Save, ClipboardList } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const artifactTypes = [
   {
     id: "form",
     name: "Form",
-    icon: FormIcon,
+    icon: ClipboardList,
     description: "Create an interactive form for data collection"
   },
   {

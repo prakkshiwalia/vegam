@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Bot, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: string;
@@ -46,6 +46,16 @@ const ChatMessage = ({ message }: { message: Message }) => {
     </div>
   );
 };
+
+// Add the missing mockResponses array
+const mockResponses = [
+  "Based on your description, I've created a customer onboarding workflow with 5 steps. You can view and customize it in the artifacts section.",
+  "I've designed a support ticket handling system with automatic categorization and priority assignment. Would you like me to explain the workflow in detail?",
+  "I've generated a customizable invoice processing workflow. This includes validation, approval, and payment tracking stages.",
+  "I've created an employee leave request workflow that incorporates manager approvals and HR notifications. You can view the full diagram in the artifacts section.",
+  "Based on your needs, I've developed a procurement workflow with budget checks, multi-level approvals, and vendor management integration.",
+  "I've designed a content approval workflow with draft, review, and publish stages. Would you like to see more details about each stage?",
+];
 
 const getMockResponse = () => {
   return mockResponses[Math.floor(Math.random() * mockResponses.length)];

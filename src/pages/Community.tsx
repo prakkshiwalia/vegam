@@ -250,29 +250,31 @@ const Community = () => {
                 </div>
               </div>
               
-              <TabsContent value="discussions" className="mt-0">
-                {filteredPosts.length > 0 ? (
-                  filteredPosts.map((post) => (
-                    <ForumPostCard key={post.id} post={post} />
-                  ))
-                ) : (
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <TabsContent value="discussions" className="mt-0">
+                  {filteredPosts.length > 0 ? (
+                    filteredPosts.map((post) => (
+                      <ForumPostCard key={post.id} post={post} />
+                    ))
+                  ) : (
+                    <div className="text-center py-12 border rounded-lg">
+                      <p className="text-muted-foreground">No discussions found matching your criteria.</p>
+                    </div>
+                  )}
+                </TabsContent>
+                
+                <TabsContent value="questions" className="mt-0">
                   <div className="text-center py-12 border rounded-lg">
-                    <p className="text-muted-foreground">No discussions found matching your criteria.</p>
+                    <p className="text-muted-foreground">Questions tab content coming soon.</p>
                   </div>
-                )}
-              </TabsContent>
-              
-              <TabsContent value="questions" className="mt-0">
-                <div className="text-center py-12 border rounded-lg">
-                  <p className="text-muted-foreground">Questions tab content coming soon.</p>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="announcements" className="mt-0">
-                <div className="text-center py-12 border rounded-lg">
-                  <p className="text-muted-foreground">Announcements tab content coming soon.</p>
-                </div>
-              </TabsContent>
+                </TabsContent>
+                
+                <TabsContent value="announcements" className="mt-0">
+                  <div className="text-center py-12 border rounded-lg">
+                    <p className="text-muted-foreground">Announcements tab content coming soon.</p>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
             
             <div className="w-full md:w-1/4 space-y-6">
